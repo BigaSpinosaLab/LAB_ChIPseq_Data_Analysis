@@ -51,4 +51,10 @@ References for required tools:
 
 - FASTQC: Andrews S.,FASTQC: a quality control tool for high throughput sequence data. https://github.com/s-andrews/FastQC
 - Trimgalore: Felix Krueger, Frankie James, Phil Ewels, Ebrahim Afyounian, & Benjamin Schuster-Boeckler. (2021). FelixKrueger/TrimGalore: v0.6.7 - DOI via Zenodo (0.6.7). Zenodo. https://doi.org/10.5281/zenodo.5127899
+- Bowtie2: Langmead B., Salzberg S.L. (2012) Fast gapped-read alignment with Bowtie2 Nat. Methods 9:357–359
+- SAMtools: Danecek P., Bonfield J.K., Liddle J., Marshall J., Ohan V., Pollard M.O., Whitwham A., Keane T., McCarthy S.A., Davies R.M. et al. (2021) Twelve years of SAMtools and BCFtools Gigascience 10
+- PhantomPeakQualTools: Landt SG1, Marinov GK, Kundaje A et al. ChIP-seq guidelines and practices of the ENCODE and modENCODE consortia. Genome Res. 2012 Sep;22(9):1813-31. doi: 10.1101/gr.136184.111.
+- deepTools: Ramírez F., Ryan D.P., Grüning B., Bhardwaj V., Kilpert F., Richter A.S., Heyne S., Dündar F., Manke T (2016) deepTools2: a next generation web server for deep-sequencing data analysis Nucleic Acids Res 44:W160–W165
+- epic2: Stovner E.B.Sætrom P (2019) epic2 efficiently finds diffuse domains in ChIP-seq data Bioinformatics 35:4392–4393
+- MACS2: Zhang Y., Liu T., Meyer C.A., Eeckhoute J., Johnson D.S., Bernstein B.E., Nusbaum C., Myers R.M., Brown M., Li W.et al. (2008) Model-based analysis of ChIP-Seq (MACS) Genome Biol 9:R137
 
