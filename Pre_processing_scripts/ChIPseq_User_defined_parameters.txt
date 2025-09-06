@@ -1,0 +1,88 @@
+################################################################################
+##       User defined parameters for ChIP-seq data analysis
+################################################################################
+
+# 1) SPECIFY Root directory in the cluster (usually /projects/cancer)
+/projects/cancer
+
+# 2) Specify project name. It will be used in final reports title (FASTQC/MULTIQC)
+ChIPseq_TF_X_Cell_Line_Y
+
+# 3) SPECIFY your project working directory (Don't include Root)
+ABigas/Project_folder_name/ChIPseq_TF_X
+
+# 4) Folder where Bowtie index is stored (Don't include Root), required for alignment
+db_files/Genomes/Ensembl/human/hg38/release-106/Bowtie2_index
+
+# 5) SPECIFY your FASTA reference genome (Don't include Root) required for index building: FASTA
+db_files/Genomes/Ensembl/human/hg38/release-106/Homo_sapiens.GRCh38.dna.primary_assembly.fa
+
+# 6) SPECIFY NAME you wanna use for index files basename
+hg38_Ensembl_r106
+
+# 7) SPECIFY if your data is PAIRED or SINGLE end, required for trimming and alignment
+PAIRED
+
+# 8) Folder where BED file with BlackListed regions is stored, required for removing 
+# blacklisted regions. Don't include Root in your path.
+db_files/Blacklisted_Regions/hg38-blacklist.v2_woCHR.bed
+
+# 9) SPECIFY your samplesheet (txt) filename required for BigWig creation. 
+# THIS IS MANDATORY FOR SINGLE-END READS, NOT REQUIRED FOR PAIRED-END READS
+# This samplesheet must include one line per sample and corresponding extension length:
+# 'sample;extension_length'. Always left an empty line at the end of the file.
+# Indicate the complete BAM filename stored in BAM_Markdup folder
+# STORE THIS FILE IN THE 'BIGWIG' SUBFOLDER. Do not inlcude WKD path
+BigWig/Samples_ChIP_TF_X.txt
+
+# 10) Specify the corresponding genome size required for BigWig creation
+# Recommended to use these ones adapted to read length 
+# https://deeptools.readthedocs.io/en/develop/content/feature/effectiveGenomeSize.html
+# As an example for hg38 50bp read length 
+2701495711 
+
+# 11) SPECIFY the file name where the sample;input is included required for peak calling. 
+# Single end data should indicated corresponding fragment length as well sample;input;fragment
+# Always left an empty line at the end of the file. Indicate the complete BAM filenames 
+# STORED IN THE 'MACS2_peak_calling'/'epic2_peak_calling' 
+# SUBFOLDER (txt file here as well). Do not inlcude WKD path.
+MACS2_peak_calling/Samples_Input_ChIP_TF_X.txt
+
+# 12) Define the chromosome sizes file, only required for epic2 peak calling
+db_files/Genomes/Ensembl/human/hg38/release-106/hg38_Ensembl_r106_chrom.sizes'
+
+# 13) Genome size fraction. About the effective genome size, only required for epic2 peak calling
+# Example for mm10 == 2308125349/2730871774 = 0.8451973
+# We will use the same as considered for deepTools 
+# https://deeptools.readthedocs.io/en/develop/content/feature/effectiveGenomeSize.html
+# Effective genome size mm10 50bp read length: 2308125349 # ADAPT IN FUNCTION OF READ LENGTH
+# Genome length: 2,730,871,774 http://nov2020.archive.ensembl.org/Mus_musculus/Info/Annotation
+0.8451973
+
+# 14) SPECIFY how many characters you wanna cut (suffix) from the BAM (Mark-dup) filenames 
+# to appear as sample label in the corr plots, QC fingerprints i.e. if you wanna remove:
+# "R1_001_trimmed.sorted.unique.markdup.filtered_blacklisted.bam" you should specify 61
+61
+
+# 15) SPECIFY length to extend reads required for fingerprint plotting.
+# Extension value is the most representative for all samples (fragment size)
+180
+
+# 16) SPECIFY the filename where the bed;name is located required for density/profiles plotting.
+# 'bed' refers to the name of the bedfile (just the filename) which should be stored in Other/Profiles
+# 'name' just refers to the label for that list of genomic regions
+# You can include more than one BED file. One per line.
+# Always left an empty line at the end of the file
+Regions_of_interest.bed
+
+# 17) SPECIFY how many characters you wanna cut (suffix) from the BigWig filenames 
+# to appear as sample label in the density plots
+83
+
+# 18) SPECIFY the distance to and from the reference point required for density plotting
+# Distance BEFORE the reference point (it can be different from next one)
+3000
+
+# 19) SPECIFY the distance to and from the reference point required for density plotting
+# Distance AFTER the reference point
+3000
