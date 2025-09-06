@@ -1,5 +1,5 @@
 # ChIP-seq data analysis
-This repository includes scripts for pre-processing ChIPseq data to obtain the proper BAM files, peak calling and generating corresponding BigWig files. Called peaks can be imported into R (or other) and further analyzed for i.e. differential binding  
+This repository includes scripts for pre-processing ChIPseq data to obtain the proper BAM files, peak calling and generating corresponding BigWig files. Called peaks can be imported into R (or other) and further analyzed for i.e. differential binding.  
 
 Considerations to bear in mind:
 
@@ -13,24 +13,23 @@ Considerations to bear in mind:
 The scripts folder contains the folder bash scripts to complete this part of the analysis. There is one script per specific step in the pipeline, specifically:
 
 - 0_Create_dir_tree_ChIPseq.sh: used to create the proper directory tree for storing intermediate and final results. Rest of scripts rely on this structure.
-- 0_Quality_check_data.sh: used to run FASTQ quality check with basic metrics. This can be used for raw and trimmed data.
-- 1_Trimming_trimgalore.sh: used to run reads trimming. This is optional depending on the quality/adapters presence in your reads.
-- 2a_Bowtie2_Build_Index.sh: used to build the required Bowtie2 index for reads alignment. This is not required if you already have an index for the genome assembly under test.
-- 2b_Bowtie2_alignment.sh: used to align FASTQ files with Bowtie2 aligner tool.
-- 3a_BAM_MarkDUP.sh: used to mark duplicates in the aligned reads by means of SAMtools. NOTE: Applied for single-end reads.
-- 3b_BAM_MarkDUP.sh: used to mark duplicates in the aligned reads by means of Picard. NOTE: Applied for paired-end reads.
-- (OPTIONAL) 4_BAM_RemoveDUP.sh: use to remove already marked duplicates. This is required if PhantomPeaktools is going to be executed. Not required for peak calling.
-- 5_Remove_Blacklisted_regions.sh: used to remove ChIPseq blacklisted regions listed by ENCODE.
-- 6a_QC_BAM_phantompeaktools.sh: used to execute PhantomPeakTools as a QC (NSC and RSC computation). Additionally, result can be used as the input fragment size for peak calling. ONLY APPLICABLE FOR SINGLE-END READS.
-- 6b_QC_Library_Complexity.sh: used to assess library complexity with Preseq. NOTE: If BAM mark duplicates is executed with Picard tool there is no need to execute this since estimated lib size is an output.
-- 7_Create_BigWig.sh: used to obtain BigWig files for later visualization in i.e. IGV.
-- 8_MACS2_Peak_calling.sh: used for peak calling (narrow profile peaks such as TFs and specific histone marks) with MACS2 tool.
-- 9_epic2_peak_calling.sh: used for peak calling (broad profile peaks such as specific histone marks) with epic2 (SICER) tool.
-- (OTHER) 10_Plot_samples_correlation.sh
-- (OTHER) 10_Plot_samples_fingerprints.sh
-- (OTHER) 10_Plot_samples_density_plots.sh
+- 1_Quality_check_data.sh: used to run FASTQ quality check with basic metrics. This can be used for raw and trimmed data.
+- 2_Trimming_trimgalore.sh: used to run reads trimming. This is optional depending on the quality/adapters presence in your reads.
+- 3_Bowtie2_Build_Index.sh: used to build the required Bowtie2 index for reads alignment. This is not required if you already have an index for the genome assembly under test.
+- 4_Bowtie2_alignment.sh: used to align FASTQ files with Bowtie2 aligner tool.
+- 5_BAM_MarkDUP.sh: used to mark duplicates in the aligned reads by means of Picard tool.
+- 6_Remove_Blacklisted_regions.sh: used to remove ChIPseq blacklisted regions listed by ENCODE.
+- 7_OPTIONAL_BAM_RemoveDUP.sh: use to remove already marked duplicates. This is required if PhantomPeaktools is going to be executed. ONLY APPLICABLE FOR SINGLE-END READS. 
+- 8_QC_phantompeaktools.sh: used to execute PhantomPeakTools as a QC (NSC and RSC computation). Additionally, result can be used as the input fragment size for peak calling. ONLY APPLICABLE FOR SINGLE-END READS.
+- 9_QC_Library_Complexity_metrics.sh: used to assess library complexity (ENCODE Quality metrics such as NRF). 
+- 10_QC_FingerPrints.sh: used to assess the ChIPseq quality.
+- 11_Create_BigWig.sh: used to obtain BigWig files for later visualization in i.e. IGV.
+- 12_MACS2_Peak_calling.sh: used for peak calling (narrow profile peaks such as TFs and specific histone marks) with MACS2 tool.
+- 13_epic2_peak_calling.sh: used for peak calling (broad profile peaks such as specific histone marks) with epic2 (SICER) tool.
+- 14_Plot_samples_correlation.sh: used to evaluate the correlation among samples from the same dataset in terms of signal across the genome.
+- 15_Plot_Samples_Profiles.sh: used to generate density/profile plots to assess the ChIP signal aroung specific genomic regions defined in a BED file.
 
-Importantly, there is a txt file 'ChIPseq_User_defined_parameters.txt' that MUST be adapted for each ChIPseq data analysis project. It basically contains the required data paths.
+Importantly, there is a txt file 'ChIPseq_User_defined_parameters.txt' that MUST BE ADAPTED for each ChIPseq data analysis project. It basically contains the required data paths and essential parameter values.
 
 ### Scripts structure
 
@@ -43,7 +42,7 @@ All scripts follow the same structure with following sections:
   
 ## Proposed methods section
 
-Following paragraph can be used in a methods section to explain ChIP-seq data pre-processing analysis and peak calling. Information can be adapted/customized in any case.
+Following paragraph can be used in a methods section to explain ChIP-seq data pre-processing analysis and peak calling. Information can be adapted/customized in any case depending on what exactly was executed.
 
 "Quality control was performed on raw data with FASTQC tool (v0.11.9). Raw reads were trimmed to remove adapters presence with Trimgalore (v0.6.6). Default parameters were used except for a minimum quality of 15 (Phred score) and an adapter removal stringency of 3bp overlap.  trimmed reads were aligned to the reference genome with Bowtie2 (v2.4.4) which was executed with default parameters. Required genome index was built with corresponding fasta file retrieved from Ensembl (*Specify the specific org assembly and release XXX* i.e. http://ftp.ensembl.org/pub/release-XXX/). Multimapped reads and those exhibiting MAPQ < 20 were removed. Duplicated reads were marked with SAMtools (v1.15). NSC and RSC quality metrics were computed with PhantomPeakQualTools (v1.2). ENCODE blacklisted regions (mm10 v2) were removed prior to peak calling. BigWig files were individually generated using deepTools (v3.5.1) bamCoverage with -binSize 10 -smoothLength 30 - effectiveGenomeSize (*define effective GenomeSize*) -normalizeUsing RPGC and -extendReads Fragment_Length options. The effective genome size was particularized to a read length of 50bp and directly retrieved from deepTools web site (https://deeptools.readthedocs.io/en/develop/content/feature/effectiveGenomeSize.html). Fragment_Length was retrieved from PhantomPeakQualTools results. Peak calling was conducted by means of epic2 (v0.0.52) with -effective-genome-fraction (*compute genome fraction*) -fragment-size Fragment_Length options and chromosome sizes only referring to canonical chromosomes [ALTERNATIVELY, 'Peak calling was conducted by means of MACS2 (v2.2.7.1) with -nomodel -extsize Fragment_Length -g (*specify genome size*) options]. The corresponding input sample was used for peak calling computation. Peaks were called with adjusted p-values (FDR) < 0.05."
 
