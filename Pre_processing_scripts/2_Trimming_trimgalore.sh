@@ -81,9 +81,9 @@ do
     
     # Construct the full execution command
     if [ $DATA_CONF = "PAIRED" ]; then
-      echo "singularity exec $IMAGES_PATH/$TRIMGALORE trim_galore -o $TRIMDATA --stringency $STRINGENCY -q $MIN_QUAL --paired $RAWDATA'/'$BASENAME'_R1_001.fastq.gz' $RAWDATA'/'$BASENAME'_R2_001.fastq.gz'"
+      echo "singularity exec $IMAGES_PATH/$TRIMGALORE trim_galore -o $TRIMDATA --stringency $STRINGENCY -q $MIN_QUAL --paired $RAWDATA/$FILENAME $RAWDATA/$FILENAME"
     else
-      echo "singularity exec $IMAGES_PATH/$TRIMGALORE trim_galore -o $TRIMDATA --stringency $STRINGENCY -q $MIN_QUAL $RAWDATA'/'$BASENAME'_R1_001.fastq.gz'"
+      echo "singularity exec $IMAGES_PATH/$TRIMGALORE trim_galore -o $TRIMDATA --stringency $STRINGENCY -q $MIN_QUAL $RAWDATA/$FILENAME"
     fi
 
 done > $WKD'/scripts/cmds/trimgalore_samples.cmd'
